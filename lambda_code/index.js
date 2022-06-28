@@ -4,7 +4,7 @@ const html = fs.readFileSync('index.html', { encoding:'utf8' });
 /**
  * Lambda function handler. 
  * 
- * Returns a static HTML page.
+ * Returns a static HTML page defined in index.html
  */
 exports.handler = async (event) => {
     const response = {
