@@ -1,0 +1,32 @@
+name: Update Website
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  upload-lambda-code:
+    runs-on: ubuntu-latest
+    name: Upload code to lambda
+
+    permissions:
+    id-token: write
+    contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Configure AWS credentials from account
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: arn:aws:iam::685982192015:role/github-actions
+          aws-region: ap-southeast-2
+        
+      - name: Zip lambda code files
+        run: |
+          zip -r temp/lambda_code.zip .
+
+      - name: Update lambda function with new code files
+        run: |
+          aws lambda update-function-code --function-name  Website --zip-file fileb://lambda_code.zip
