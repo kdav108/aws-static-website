@@ -11,8 +11,8 @@ jobs:
     name: Upload code to lambda
 
     permissions:
-    id-token: write
-    contents: read
+      id-token: write
+      contents: read
     steps:
       - name: Checkout
         uses: actions/checkout@v2
