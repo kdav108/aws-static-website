@@ -13,6 +13,8 @@ provider "aws" {
   region = "ap-southeast-2"
 }
 
+// Archive the folder containing the code to be deployed to lambda
+// since it only accepts a zip file
 data "archive_file" "lambda_code" {
   type = "zip"
 
@@ -31,6 +33,7 @@ resource "aws_lambda_function" "lambda_website" {
   role = aws_iam_role.basic_lambda_exec.arn
 }
 
+// Function url allows accessing the lambda from a HTTP endpoint
 resource "aws_lambda_function_url" "lambda_website_url" {
   function_name      = aws_lambda_function.lambda_website.function_name
   authorization_type = "NONE"
