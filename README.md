@@ -9,6 +9,15 @@ This repository sets up and configures a very minimal static website hosted on A
 - `automation`: All terraform related files
 - `.github/workflow`: contains CD pipeline
 
+## CI/CD pipeline
+The repository currently contains a GitHub Actions workflow for continuous deployment. The workflow runs on every merge to master and uploads a zipped file containing the files under `lambda_code` directory to AWS lambda to update the website to reflect the new changes merged to master. The new code uploaded replaces the existing code on lambda (i.e. there is no code versioning set-up on the lambda as of yet).
+
+To run the pipeline directly:
+1. Go to the `Actions` tab and select the `Update Website` workflow.
+2. Click on a recent run
+3. On the top right click "Re-run all jobs"
+4. A new workflow job will be created and triggered
+
 ## Steps to replicate the website
 1. From `automation` initiate terraform using
 ```
