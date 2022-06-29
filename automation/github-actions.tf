@@ -1,13 +1,14 @@
 // To create the OIDC provider for github actions to work
 // Due to lack of time, this entire functionality was build following the guide here https://dev.to/mmiranda/github-actions-authenticating-on-aws-using-oidc-3d2n
 
+// The following are all constants provided by Github
 resource "aws_iam_openid_connect_provider" "github" {
   url             = "https://token.actions.githubusercontent.com"
   client_id_list  = ["sts.amazonaws.com"]
-  thumbprint_list = ["6938fd4d98bab03faadb97b34396831e3780aea1"] // Constant for github
+  thumbprint_list = ["6938fd4d98bab03faadb97b34396831e3780aea1"]
 }
 
-
+// Allow github actions to assume role
 data "aws_iam_policy_document" "github_actions_assume_role" {
   statement {
     actions = ["sts:AssumeRoleWithWebIdentity"]
@@ -28,6 +29,7 @@ resource "aws_iam_role" "github_actions" {
   assume_role_policy = data.aws_iam_policy_document.github_actions_assume_role.json
 }
 
+// Github actions currently only requires permission to update lambda code
 data "aws_iam_policy_document" "github_actions" {
   statement {
     actions = [
